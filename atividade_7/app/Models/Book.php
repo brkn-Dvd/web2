@@ -10,20 +10,26 @@ class Book extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'author_id', 'category_id', 'publisher_id', 'published_year', 'cover_image'
-];
+    protected $fillable = [
+        'title',
+        'author_id',
+        'category_id',
+        'publisher_id',
+        'published_year',
+        'cover_image'
+    ];
 
     public function author()
     {
         return $this->belongsTo(Author::class);
     }
 
-public function users()
-{
-    return $this->belongsToMany(User::class, 'borrowings')
-                ->withPivot('id', 'borrowed_at', 'returned_at')
-                ->withTimestamps();
-}
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'borrowings')
+            ->withPivot('id', 'borrowed_at', 'returned_at')
+            ->withTimestamps();
+    }
 
 
     public function category()
@@ -37,12 +43,13 @@ public function users()
     }
 
     public function getCoverImageUrlAttribute()
-    {
-        return $this->cover_image 
-            ? Storage::url($this->cover_image)
-            : asset('images/default-book-cover.jpg'); // Imagem padrão
+     {
+        if ($this->cover_image) {
+            return Storage::url($this->cover_image);
+        }
+        return asset('images/default-book-cover.jpg'); // Imagem padrão caso não exista
     }
-    
+
     protected static function booted()
     {
         static::deleted(function ($book) {
@@ -52,6 +59,4 @@ public function users()
             }
         });
     }
-}
-
 }
