@@ -37,7 +37,7 @@
                                 <img src="{{ $book->cover_image_url }}" alt="Capa do livro" class="img-fluid rounded shadow"
                                     style="max-height: 300px;">
                             @else
-                                <img src="{{ asset('images/default-book-cover.jpg') }}" alt="Capa padrão"
+                                <img src="{{ asset('images/default-book-cover.jpg') }}" alt="Sem capa"
                                     class="img-fluid rounded shadow" style="max-height: 300px;">
                             @endif
                         </div>
