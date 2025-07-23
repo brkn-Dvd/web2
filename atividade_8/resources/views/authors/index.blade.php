@@ -33,19 +33,23 @@
                             <i class="bi bi-eye"></i> Visualizar
                         </a>
 
-                        <!-- Botão de Editar -->
-                        <a href="{{ route('authors.edit', $author) }}" class="btn btn-primary btn-sm">
-                            <i class="bi bi-pencil"></i> Editar
-                        </a>
+                        @auth
+                            @if(auth()->user()->role === 'admin' || auth()->user()->role === 'bibliotecario')
+                                <!-- Botão de Editar -->
+                                <a href="{{ route('authors.edit', $author) }}" class="btn btn-primary btn-sm">
+                                    <i class="bi bi-pencil"></i> Editar
+                                </a>
 
-                        <!-- Botão de Excluir -->
-                        <form action="{{ route('authors.destroy', $author) }}" method="POST" style="display: inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-danger btn-sm" onclick="return confirm('Deseja excluir este Autor?')">
-                                <i class="bi bi-trash"></i> Excluir
-                            </button>
-                        </form>
+                                <!-- Botão de Excluir -->
+                                <form action="{{ route('authors.destroy', $author) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger btn-sm" onclick="return confirm('Deseja excluir este Autor?')">
+                                        <i class="bi bi-trash"></i> Excluir
+                                    </button>
+                                </form>
+                            @endif
+                        @endauth
                     </td>
                 </tr>
             @empty

@@ -38,19 +38,23 @@
                             <i class="bi bi-eye"></i> Visualizar
                         </a>
 
-                        <!-- Botão de Editar -->
-                        <a href="{{ route('books.edit', $book->id) }}" class="btn btn-primary btn-sm">
-                            <i class="bi bi-pencil"></i> Editar
-                        </a>
+                        @auth
+                            @if(auth()->user()->role === 'admin' || auth()->user()->role === 'bibliotecario')
+                                <!-- Botão de Editar -->
+                                <a href="{{ route('books.edit', $book->id) }}" class="btn btn-primary btn-sm">
+                                    <i class="bi bi-pencil"></i> Editar
+                                </a>
 
-                        <!-- Botão de Deletar -->
-                        <form action="{{ route('books.destroy', $book->id) }}" method="POST" style="display: inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-danger btn-sm" onclick="return confirm('Deseja excluir este livro?')">
-                                <i class="bi bi-trash"></i> Deletar
-                            </button>
-                        </form>
+                                <!-- Botão de Deletar -->
+                                <form action="{{ route('books.destroy', $book->id) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger btn-sm" onclick="return confirm('Deseja excluir este livro?')">
+                                        <i class="bi bi-trash"></i> Deletar
+                                    </button>
+                                </form>
+                            @endif
+                        @endauth
                     </td>
                 </tr>
             @empty

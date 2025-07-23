@@ -44,6 +44,7 @@ class BookController extends Controller
     // Formulário com input select
     public function createWithSelect()
     {
+        // dd('teste');
         $publishers = Publisher::all();
         $authors = Author::all();
         $categories = Category::all();

@@ -3,6 +3,8 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use App\Models\User;
+use App\Policies\UserPolicy;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -10,19 +12,18 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
-
     ->withMiddleware(function (Middleware $middleware) {
-        // Registrar seu middleware de role
         $middleware->alias([
             'role' => \App\Http\Middleware\CheckRole::class,
         ]);
     })
-
-    ->withPolicies([
-        \App\Models\User::class => \App\Policies\UserPolicy::class,
-        // Adicione outras policies aqui conforme necessário
+    ->withProviders([
+        \App\Providers\AuthServiceProvider::class,
+    ])    
+    ->withEvents(discover: [
+        // Adicione seus event listeners se necessário
     ])
-
     ->withExceptions(function (Exceptions $exceptions) {
         //
-    })->create();
+    })
+    ->create();

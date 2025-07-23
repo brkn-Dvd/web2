@@ -12,7 +12,8 @@ class UserPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->role === 'admin';
+             
+        return in_array($user->role, ['admin', 'bibliotecario', 'cliente']);
     }
 
     public function updateRole(User $user)
@@ -24,7 +25,7 @@ class UserPolicy
      */
     public function view(User $user, User $model): bool
     {
-        return false;
+        return true;
     }
 
     /**

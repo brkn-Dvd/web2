@@ -23,9 +23,13 @@
                         <a href="{{ route('users.show', $user) }}" class="btn btn-info btn-sm">
                             <i class="bi bi-eye"></i> Visualizar
                         </a>
-                        <a href="{{ route('users.edit', $user) }}" class="btn btn-primary btn-sm">
-                            <i class="bi bi-pencil"></i> Editar
-                        </a>
+                        @auth
+                            @if(auth()->user()->role === 'admin' || auth()->user()->role === 'bibliotecario')
+                                <a href="{{ route('users.edit', $user) }}" class="btn btn-primary btn-sm">
+                                    <i class="bi bi-pencil"></i> Editar
+                                </a>
+                            @endif
+                        @endauth
                     </td>
                 </tr>
             @endforeach
