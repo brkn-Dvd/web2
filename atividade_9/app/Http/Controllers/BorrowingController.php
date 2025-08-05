@@ -27,6 +27,16 @@ class BorrowingController extends Controller
                 ->with('error', 'Este livro já está emprestado e ainda não foi devolvido.');
         }
 
+        // Verifica se o usuário já possui 5 livros emprestados simultaneamente
+        $emprestimosAbertos = Borrowing::where('user_id', $request->user_id)
+            ->whereNull('returned_at')
+            ->count();
+
+        if ($emprestimosAbertos >= 5) {
+            return redirect()->route('books.show', $book)
+                ->with('error', 'O usuário já atingiu o limite de 5 livros emprestados simultaneamente.');
+        }
+
         Borrowing::create([
             'user_id' => $request->user_id,
             'book_id' => $book->id,
